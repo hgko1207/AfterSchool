@@ -1,0 +1,55 @@
+@charset "EUC-KR";
+
+body { font-family:myFirstFont, NanumGothic,Verdana,Dotum,"µ¸¿ò",sans-serif; font-size:14px; color:#000; }
+@font-face { font-family:myFirstFont; src:local('NanumGothic') }
+input, select, textarea{ font-size:12px; font-family:myFirstFont, NanumGothic,Verdana,Dotum,"µ¸¿ò",sans-serif; color:#000; }
+* { -webkit-text-size-adjust:none; }
+
+.layout-boxed-bg {
+    background: url(../images/boxed_bg.png) repeat;
+}
+
+.navbar-brand span {
+	color: white;
+	font-size: 1rem;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.content {
+	padding: 0.9rem 0.9rem;
+}
+
+.card-header h2 {
+	display: block;
+    margin: 0 auto;
+    padding: 10px 0 10px 0;
+    /* border-bottom: 1px dashed #a0a0a0; */
+    text-align: center;
+    font-size: 23px;
+    font-weight: bold;
+}
+
+.card-body .info-text {
+	font-size: 15px;
+    color: #0075cc;
+    font-weight: bold;
+    text-align: center;
+}
+
+.student-content .col-form-label {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    float: left;
+    padding: 6px 10px 0 10px;
+}
+
+.custom-btn {
+	width: 120px;
+    height: 40px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+}
