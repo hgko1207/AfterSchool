@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.ysc.after.school.domain.Domain;
+
 import lombok.Data;
 
 /**
@@ -18,7 +20,7 @@ import lombok.Data;
 @Entity
 @Table(name = "tb_subject_group")
 @Data
-public class SubjectGroup {
+public class SubjectGroup implements Domain {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +29,8 @@ public class SubjectGroup {
 	/** 이름 */
 	@Column(nullable = false, length = 20)
 	private String name;
+	
+	/** 설명 */
+	@Column(nullable = false, length = 255)
+	private String description;
 }

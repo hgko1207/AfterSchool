@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ include file="/WEB-INF/jsp/common/tagLib.jsp"%>
 
+<link href="${pageContext.request.contextPath}/css/student.css" rel="stylesheet" type="text/css">
+
 <div class="navbar navbar-expand-md navbar-dark">
 	<div class="navbar-brand">
 		<a href="/" class="d-inline-block">
@@ -20,11 +22,11 @@
 					    </h2>
 					</div>
 					<div class="card-body student-content">
-						<p class="info-text mt-1">*정보 입력 후 하단 [학생등록]을 클릭하세요.
+						<p class="info-text mt-1">*정보 입력 후 하단 [학생등록]을 클릭하세요.<br>핸드폰에 반드시 수업관련안내를 받으실 번호<br>(학부모 전화번호)를 입력하세요.
 						<div class="form-group row pt-2">
 							<label class="col-form-label col-3">학 교</label>
 							<div class="col-9">
-								<select data-placeholder="- 선 택 -" class="form-control form-control-select2" name="school" required>
+								<select data-placeholder="- 선 택 -" class="form-control select-search" name="school" required>
 									<option></option>
 									<c:forEach var="school" items="${schools}" varStatus="status">
 										<option value="${school}">${school}</option>
@@ -98,6 +100,8 @@
 </div>
 
 <script>
+
+
 $("#studentRegistForm").submit(function(e) {
 	e.preventDefault();
 	
@@ -111,9 +115,19 @@ $("#studentRegistForm").submit(function(e) {
 		data: student,
 		success: function(response) {
        		if (response) {
-       			swal({title: "등록된 학생 정보입니다.", type: "info", position: 'top'})
+       			swal({title: "등록된 학생 정보입니다.", type: "warning", position: 'top', confirmButtonClass: 'btn btn-warning',})
        		} else {
-       			
+       			$.ajax({
+       				type: "POST",
+       	           	url: url,
+       	           	data: student,
+       	           	success: function(response) {
+       	           		location.href = contextPath + "/login";
+       	           	},
+       	            error: function(response) {
+       	            	swal({title: "학생 등록을 실패하였습니다.", type: "error"})
+       	            }
+       			});
        		}
        	}
 	}); 

@@ -39,6 +39,9 @@ public class StudentController {
 	@GetMapping("regist")
 	public void regist(Model model) { 
 		model.addAttribute("schools", schoolService.getList().stream().map(data -> {
+			if (data.getName().contains("분교")) {
+				return data.getName();
+			}
 			return data.getName() + data.getSchoolType().getName();
 		}).sorted().collect(Collectors.toList()));
 	}
@@ -55,14 +58,14 @@ public class StudentController {
 	 */
 	@PostMapping(value = "regist")
 	@ResponseBody
-	public String regist(Student student) {
+	public ResponseEntity<?> regist(Student student) {
 		student.setTel(student.getService() + student.getTel());
 		System.err.println(student);
 		
 		if (studentService.regist(student)) {
-			return "redirect:/login";
-		} else {
-			return "student/regist";
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
+		
+		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 }

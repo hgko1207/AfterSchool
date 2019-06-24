@@ -56,8 +56,15 @@
 							<div class="text-center mt-2 mb-4">
 								<i class="icon-reading icon-2x text-slate-300 border-slate-300 border-3 rounded-round p-3 mb-2 mt-1"></i>
 								<h3 class="mb-1">로그인</h3>
-								<span class="d-block text-muted">학생 이름과 전화번호를 입력하세요.</span>
+								<span class="d-block text-muted">학생 이름과 학부모 전화번호를 입력하세요.</span>
 							</div>
+							
+							<c:if test="${not empty error}">
+								<div class="alert alert-danger border-0 alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span>×</span></button>
+									<span class="font-weight-semibold">학생 정보가 일치하지 않습니다.</span>
+							    </div>
+							</c:if>
 							
 							<div class="form-group form-group-feedback form-group-feedback-left">
 								<input type="text" class="form-control" placeholder="학생 이름" autocomplete="off" value="${username}" name="username" required>

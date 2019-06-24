@@ -9,6 +9,15 @@ input, select, textarea{ font-size:12px; font-family:myFirstFont, NanumGothic,Ve
     background: url(../images/boxed_bg.png) repeat;
 }
 
+@media (min-width: 576px) {
+	.login-form {
+	    width: 25rem;
+	}
+}
+
+/*******************************************************************************************************
+ header 디자인
+*******************************************************************************************************/
 .navbar-brand span {
 	color: white;
 	font-size: 1rem;
@@ -16,40 +25,9 @@ input, select, textarea{ font-size:12px; font-family:myFirstFont, NanumGothic,Ve
 	vertical-align: middle;
 }
 
-.content {
-	padding: 0.9rem 0.9rem;
-}
-
-.card-header h2 {
-	display: block;
-    margin: 0 auto;
-    padding: 10px 0 10px 0;
-    /* border-bottom: 1px dashed #a0a0a0; */
-    text-align: center;
-    font-size: 23px;
-    font-weight: bold;
-}
-
-.card-body .info-text {
-	font-size: 15px;
-    color: #0075cc;
-    font-weight: bold;
-    text-align: center;
-}
-
-.student-content .col-form-label {
-    color: #333;
-    font-size: 16px;
-    font-weight: bold;
-    float: left;
-    padding: 6px 10px 0 10px;
-}
-
-.custom-btn {
-	width: 120px;
-    height: 40px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 16px;
-    font-weight: bold;
+/*******************************************************************************************************
+ 공통 디자인
+*******************************************************************************************************/
+.swal2-title {
+	font-weight: bold;
 }

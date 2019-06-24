@@ -26,8 +26,6 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 		String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
         
-        System.err.println(username + ", " + password);
-        
         Student student = studentService.login(username, password);
         if (student != null) {
         	Collection<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>();
