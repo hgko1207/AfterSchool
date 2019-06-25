@@ -10,66 +10,103 @@
 	  		<c:param name="header" value="수강신청확인" />
 		</c:import>
 		
-		<!-- <div class="result-empty">
-			수강신청내역이 없습니다.
-		</div> -->
-		
-		<div class="card-group-control card-group-control-left" id="accordion-group">
-			<div class="card">
-				<div class="card-header bg-light header-elements-inline">
-					<h6 class="card-title">
-						<a data-toggle="collapse" class="collapsed text-default font-weight-bold" href="#accordion-item-group1">
-							제임스와 함께하는 프리미어리그 체험
-						</a>
-					</h6>
-					<div class="header-elements mylist-header">
-						<button type="button" class="btn btn-danger btn-sm">신청취소</button>
-		           	</div>
+		<c:choose>
+			<c:when test="${fn:length(applies) == 0}">
+		       	<div class="result-empty">
+					수강신청내역이 없습니다.
 				</div>
-		
-				<div id="accordion-item-group1" class="collapse" data-parent="#accordion-group">
-					<div class="card-body">
-						<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>개강일자 : </label>
-				    		<label class="col-form-label">2019-06-04</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>수업일시 : </label>
-				    		<label class="col-form-label">목요일 (14:10 - 15:30)</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>대상학년 : </label>
-				    		<label class="col-form-label">1-2학년</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>월수강료 : </label>
-				    		<label class="col-form-label">₩26,000원</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>교재(재료)비 : </label>
-				    		<label class="col-form-label">₩39,000원</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>수강교실 : </label>
-				    		<label class="col-form-label">과학실</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>강사명 : </label>
-				    		<label class="col-form-label">김수영</label>
-				    	</div>
-				    	<div>
-				    		<label class="col-form-label text-primary"><i class="icon-plus3 mr-2"></i>비고 : </label>
-				    		<label class="col-form-label"></label>
-				    	</div>
-					</div>
-				</div> 
-			</div>
-		</div>
-		<div class="mylist-result">
+		    </c:when>
+		     <c:otherwise>
+		     	<div class="card-group-control card-group-control-left" id="accordion-group">
+		     		<c:forEach var="apply" items="${applies}" varStatus="status">
+		     			<div class="card">
+							<div class="card-header bg-light header-elements-inline">
+								<h6 class="card-title">
+									<a data-toggle="collapse" class="collapsed text-default font-weight-bold" href="#accordion-item-group${apply.id}">
+										${apply.subject.name}
+									</a>
+								</h6>
+								<div class="header-elements mylist-header">
+									<button type="button" class="btn btn-danger btn-sm" onclick="applyCancel(${apply.id})">신청취소</button>
+					           	</div>
+							</div>
+					
+							<div id="accordion-item-group${apply.id}" class="collapse" data-parent="#accordion-group">
+								<div class="card-body">
+									<div>
+							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>수강기간 : </label>
+							    		<label class="col-form-label">${apply.subject.period}</label>
+							    	</div>
+							    	<div>
+							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>수업일시 : </label>
+							    		<label class="col-form-label">${apply.subject.week} (${apply.subject.time})</label>
+							    	</div>
+							    	<div>
+							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>대상학년 : </label>
+							    		<label class="col-form-label">${apply.subject.target}</label>
+							    	</div>
+							    	<div>
+							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>재료,교구비 : </label>
+							    		<label class="col-form-label">${apply.subject.costDesc}</label>
+							    	</div>
+							    	<div>
+							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>강사이름 : </label>
+							    		<label class="col-form-label">${apply.subject.teacher}</label>
+							    	</div>
+							    	<div class="align-items-stretch">
+							    		<label class="col-form-label text-primary font-weight-bold pb-0"><i class="icon-arrow-right13 mr-1"></i>수업장소 : </label>
+							    		<label class="col-form-label ml-3">${apply.subject.location}</label>
+							    	</div>
+							    	<div class="align-items-stretch">
+							    		<label class="col-form-label text-primary font-weight-bold pb-0"><i class="icon-arrow-right13 mr-1"></i>과목특징 : </label>
+							    		<label class="col-form-label ml-3 pb-0">${apply.subject.description}</label>
+							    	</div>
+								</div>
+							</div> 
+						</div>
+		     		</c:forEach>
+				</div>
+		     </c:otherwise>
+		</c:choose>
+		<!-- <div class="mylist-result">
 			<ul class="text-right">
 				<li>(예상)신청총액 : ₩65,000</li>
 				<li class="advice">교재/재료비에 따라 신청총액이 증감될 수 있습니다.</li>
 			</ul>
-		</div>
+		</div> -->
 	</div>
 </div>
+
+<script>
+
+
+function applyCancel(applyId) {
+	swal({
+        title: "수강취소 하시겠습니까?",
+        type: "warning",
+        confirmButtonText: "확인",
+        confirmButtonClass: "btn btn-danger",
+        showCancelButton: true, 
+        cancelButtonText: "닫기",
+        position: "top"
+    }).then(function(e) {
+    	$.ajax({
+    		url: contextPath + "/apply/delete",
+      		data: {"applyId": applyId},
+      		type: "DELETE",
+           	success: function(response) {
+           		swal({
+       				title: "수강 취소 되었습니다.", 
+       				type: "success",
+       				position: 'top'
+       			}).then(function(e) {
+       				location.href = "mylist";
+       			});
+           	},
+            error: function(response) {
+            	swal({title: response.responseText, type: "error", position: 'top'})
+            }
+    	});
+    });
+}
+</script>

@@ -18,7 +18,7 @@
 				<div class="card mb-0">
 					<div class="card-header">
 						<h2>
-							2019년도 01 신청안내
+							2019년도 수강 신청안내
 					    </h2>
 					</div>
 					<div class="card-body apply-content">
@@ -28,11 +28,11 @@
 				    	</div>
 				    	<div>
 				    		<label class="col-form-label text_bold">신청기간 : </label>
-				    		<label class="col-form-label apply-peirod">2019-06-01 00시 ~ 2020-02-27 00시</label>
+				    		<label class="col-form-label apply-peirod">2019-07-01 00시 ~ 2019-07-05 24시</label>
 				    	</div>
 					</div>
 					<div class="card-footer text-center">
-						<a href="subscribe" class="btn bg-primary-700 rounded-round custom-btn apply-btn">수강신청하기</a>
+						<a href="subscribe1" class="btn bg-primary-700 rounded-round custom-btn apply-btn">수강신청하기</a>
 					</div>
 				</div>
 			</form>

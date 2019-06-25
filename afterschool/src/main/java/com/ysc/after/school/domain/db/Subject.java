@@ -2,6 +2,8 @@ package com.ysc.after.school.domain.db;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +29,7 @@ public class Subject implements Domain {
 	private int id;
 	
 	/** 이름 */
-	@Column(nullable = false, length = 20)
+	@Column(nullable = false, length = 255)
 	private String name;
 	
 	/** 강사 */
@@ -36,7 +38,7 @@ public class Subject implements Domain {
 	
 	/** 대상 */
 	@Column(nullable = false, length = 45)
-	private String targer;
+	private String target;
 	
 	/** 수강기간 */
 	@Column(nullable = false, length = 255)
@@ -46,13 +48,9 @@ public class Subject implements Domain {
 	@Column(nullable = false, length = 45)
 	private String week;
 	
-	/** 시작시간 */
-	@Column(nullable = false, length = 20)
-	private String startTime;
-	
-	/** 종료시간 */
-	@Column(nullable = false, length = 20)
-	private String endTime;
+	/** 운영시간 */
+	@Column(nullable = false, length = 45)
+	private String time;
 	
 	/** 장소 */
 	@Column(nullable = false, length = 255)
@@ -68,9 +66,31 @@ public class Subject implements Domain {
 	/** 정원 */
 	private int fixedNumber;
 	
+	/** 수강신청 인원 */
+	private int applyNumber;
+	
+	/** 수강대기 인원 */
+	private int waitNumber;
+	
+	/** 수강신청 시작 날짜 */
+	@Column(nullable = false, length = 20)
+	private String applyStartTime;
+	
+	/** 수강신청 종료 날짜 */
+	@Column(nullable = false, length = 20)
+	private String applyEndTime;
+	
 	/** 과목특징 */
 	@Column(nullable = false, length = 255)
 	private String description;
 	
 	private int subjectGroupId;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private ApplyType applyType;
+	
+	public enum ApplyType {
+		NONE, APPLY, WAIT;
+	}
 }

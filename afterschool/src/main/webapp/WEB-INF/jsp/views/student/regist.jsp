@@ -125,7 +125,7 @@ $("#studentRegistForm").submit(function(e) {
        	           		location.href = contextPath + "/login";
        	           	},
        	            error: function(response) {
-       	            	swal({title: "학생 등록을 실패하였습니다.", type: "error"})
+       	            	swal({title: "학생 등록을 실패하였습니다.", type: "error", position: 'top'})
        	            }
        			});
        		}

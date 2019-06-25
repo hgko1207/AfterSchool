@@ -60,7 +60,6 @@ public class StudentController {
 	@ResponseBody
 	public ResponseEntity<?> regist(Student student) {
 		student.setTel(student.getService() + student.getTel());
-		System.err.println(student);
 		
 		if (studentService.regist(student)) {
 			return new ResponseEntity<>(HttpStatus.OK);
