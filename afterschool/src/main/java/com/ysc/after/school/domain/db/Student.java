@@ -53,8 +53,20 @@ public class Student implements Domain {
 	@Column(length = 20)
 	private String tel;
 	
+	private boolean agree;
+	
+	/** 주민등록번호 */
+	@Column(length = 15)
+	private String residentNumber;
+	
 	@Transient
 	private String service;
+	
+	@Transient
+	private String jumin1;
+	
+	@Transient
+	private String jumin2;
 	
 	/** 등록시간 */
 	@CreationTimestamp

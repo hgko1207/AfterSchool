@@ -46,6 +46,11 @@ public class StudentController {
 		}).sorted().collect(Collectors.toList()));
 	}
 	
+	/***
+	 * 등록된 학생인지 확인
+	 * @param student
+	 * @return
+	 */
 	@GetMapping("search")
 	@ResponseBody
 	public boolean search(Student student) {
@@ -60,6 +65,9 @@ public class StudentController {
 	@ResponseBody
 	public ResponseEntity<?> regist(Student student) {
 		student.setTel(student.getService() + student.getTel());
+		if (student.isAgree()) {
+			student.setResidentNumber(student.getJumin1() + "-" + student.getJumin2());
+		}
 		
 		if (studentService.regist(student)) {
 			return new ResponseEntity<>(HttpStatus.OK);

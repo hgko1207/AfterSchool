@@ -19,7 +19,7 @@ var CommonWidget = function() {
             width: '90'
         });
         
-     // Select with search
+        // Select with search
         $('.select-search').select2();
         
         // Trigger value change when selection is made
@@ -37,10 +37,37 @@ var CommonWidget = function() {
 	    });
     };
     
+    // Uniform
+    var _componentUniform = function() {
+        if (!$().uniform) {
+            console.warn('Warning - uniform.min.js is not loaded.');
+            return;
+        }
+
+        $('.form-check-input-styled').uniform();
+    };
+    
+    var _componentInputFormatter = function() {
+    	 if (!$().formatter) {
+             console.warn('Warning - formatter.min.js is not loaded.');
+             return;
+         }
+
+         $('.format-jumin1').formatter({
+             pattern: '{{999999}}'
+         });
+         
+         $('.format-jumin2').formatter({
+             pattern: '{{9999999}}'
+         });
+    };
+    
     return {
         init: function() {
         	_componentSelect2();
         	_componentSwal();
+        	_componentUniform();
+        	_componentInputFormatter();
         }
     }
 }();

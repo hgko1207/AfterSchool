@@ -73,7 +73,7 @@
 								<input type="text" class="form-control" name="name" autocomplete="off" required>
 							</div>
 						</div>
-						<div class="form-group row mb-2">
+						<div class="form-group row">
 							<label class="col-form-label col-3">핸드폰</label>
 							<div class="col-9 d-flex">
 								<select class="form-control select2-size" name="service">
@@ -88,6 +88,25 @@
 									autocomplete="off" placeholder="'-' 없이 입력하세요." required>
 							</div>
 						</div>
+						
+						<fieldset class="mb-0">
+							<legend class="text-uppercase font-weight-bold">개인정보제공 동의</legend>
+							<label class="text-grey-600">학생보험 가입 시 필요한 개인정보제공에 동의를<br>해 주셔야 가입이 가능합니다.<br>보험가입목적 외에는 절대 사용하지 않습니다.</label>
+							<div class="form-check mt-2">
+								<label class="form-check-label">
+									<input id="agreeCheck" type="checkbox" name="agree" class="form-check-input-styled" data-fouc>
+									보험가입에 필요한 개인정보를 보험사에<br>제공하는 것에 동의합니다.
+								</label>
+							</div>
+							<div id="residentNumberInput" class="form-group mt-2 d-none">
+								<label class="font-weight-bold">학생주민등록번호 입력 :</label>
+								<div class="d-flex align-items-center">
+									<input type="text" class="form-control format-jumin1" id="jumin1" name="jumin1">
+									<span class="font-weight-bold mx-2">-</span>
+									<input type="password" class="form-control format-jumin2" id="jumin2" name="jumin2">
+								</div>
+							</div>
+						</fieldset>
 					</div>
 					<div class="card-footer text-center">
 						<button type="submit" class="btn bg-teal-600 rounded-round custom-btn mr-2">학생등록</button>
@@ -100,10 +119,20 @@
 </div>
 
 <script>
-
-
 $("#studentRegistForm").submit(function(e) {
 	e.preventDefault();
+	
+	if ($("#agreeCheck").is(":checked")) {
+		if ($("#jumin1").val() == '' || $("#jumin2").val() == '') {
+			$("#jumin1").focus();
+			return;
+		}
+		
+		if (!validate()) {
+			swal({title: "올바른 주민번호가 아닙니다.", type: "warning", position: 'top'});
+			return;
+		}
+	}
 	
 	var form = $(this);
     var url = form.attr('action');
@@ -115,7 +144,7 @@ $("#studentRegistForm").submit(function(e) {
 		data: student,
 		success: function(response) {
        		if (response) {
-       			swal({title: "등록된 학생 정보입니다.", type: "warning", position: 'top', confirmButtonClass: 'btn btn-warning',})
+       			swal({title: "이미 등록된 학생 정보입니다.", type: "warning", position: 'top', confirmButtonClass: 'btn btn-warning',})
        		} else {
        			$.ajax({
        				type: "POST",
@@ -130,6 +159,62 @@ $("#studentRegistForm").submit(function(e) {
        			});
        		}
        	}
-	}); 
+	});
 });
+
+$("#agreeCheck").click(function(){
+    if ($(this).is(':checked')){
+    	$("#residentNumberInput").removeClass("d-none");
+    } else {
+    	$("#residentNumberInput").addClass("d-none");
+    }
+});
+
+function validate() {
+    var re = /^[a-zA-Z0-9]{4,12}$/ // 아이디와 패스워드가 적합한지 검사할 정규식
+    var re2 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    // 이메일이 적합한지 검사할 정규식
+
+    var num1 = document.getElementById("jumin1");
+    var num2 = document.getElementById("jumin2");
+
+    var arrNum1 = new Array(); // 주민번호 앞자리숫자 6개를 담을 배열
+    var arrNum2 = new Array(); // 주민번호 뒷자리숫자 7개를 담을 배열
+
+    // -------------- 주민번호 -------------
+
+    for (var i=0; i<num1.value.length; i++) {
+        arrNum1[i] = num1.value.charAt(i);
+    } // 주민번호 앞자리를 배열에 순서대로 담는다.
+
+    for (var i=0; i<num2.value.length; i++) {
+        arrNum2[i] = num2.value.charAt(i);
+    } // 주민번호 뒷자리를 배열에 순서대로 담는다.
+
+    var tempSum = 0;
+
+    for (var i=0; i<num1.value.length; i++) {
+        tempSum += arrNum1[i] * (2+i);
+    } // 주민번호 검사방법을 적용하여 앞 번호를 모두 계산하여 더함
+
+    for (var i=0; i<num2.value.length-1; i++) {
+        if (i>=2) {
+            tempSum += arrNum2[i] * i;
+        }
+        else {
+            tempSum += arrNum2[i] * (8+i);
+        }
+    } // 같은방식으로 앞 번호 계산한것의 합에 뒷번호 계산한것을 모두 더함
+
+    if ((11-(tempSum%11))%10!=arrNum2[6]) {
+        //alert("올바른 주민번호가 아닙니다.");
+        num1.value = "";
+        num2.value = "";
+        num1.focus();
+        return false;
+    } else{
+    	//alert("올바른 주민등록번호 입니다.");
+    	return true;
+    }
+}
 </script>

@@ -85,7 +85,7 @@
 							</div>
 							
 							<div class="form-group text-center text-muted content-divider">
-								<span class="px-2">학생이 등록 되지 않았습니까?</span>
+								<span class="px-2">처음 이용 시는 학생등록을<br>먼저 해주시기 바랍니다.</span>
 							</div>
 
 							<div class="form-group">
