@@ -42,8 +42,8 @@ public class School implements Domain {
 	
 	@Getter
 	public enum SchoolType {
-		Elementary("초등학교"),
-		Middle("중학교");
+		초등("초등학교"),
+		중등("중학교");
 		
 		private String name;
 		

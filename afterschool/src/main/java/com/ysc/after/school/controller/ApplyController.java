@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ysc.after.school.domain.db.Apply;
 import com.ysc.after.school.domain.db.Student;
+import com.ysc.after.school.domain.db.Student.TargetType;
 import com.ysc.after.school.domain.db.Subject;
 import com.ysc.after.school.domain.db.Subject.ApplyType;
 import com.ysc.after.school.service.ApplyService;
+import com.ysc.after.school.service.GuidanceService;
 import com.ysc.after.school.service.SubjectGroupService;
 import com.ysc.after.school.service.SubjectService;
 
@@ -41,6 +43,9 @@ public class ApplyController {
 	
 	@Autowired
 	private ApplyService applyService;
+	
+	@Autowired
+	private GuidanceService guidanceService;
 
 	/**
 	 * 수강 신청 정보 화면
@@ -49,7 +54,7 @@ public class ApplyController {
 	@GetMapping("info")
 	public void info(Model model, Authentication authentication) {
 		Student student = (Student) authentication.getPrincipal();
-		
+		model.addAttribute("guidance", guidanceService.get(1));
 		model.addAttribute("name", student.getName());
 		model.addAttribute("student", student.getGrade() + "학년 " + student.getClassType() + "반 " + student.getNumber() + "번");
 	}
@@ -71,10 +76,22 @@ public class ApplyController {
 	public void subscribe2(Model model, int groupId, Authentication authentication) { 
 		Student student = (Student) authentication.getPrincipal();
 		
-		List<Subject> subjects = subjectService.getList(groupId).stream().map(data -> {
+		List<Subject> subjects = subjectService.getList(groupId).stream()
+		.filter(subject -> {
+			if (subject.getTargetType() == TargetType.전체 || subject.getTargetType() == student.getTargetType()
+					|| subject.getTargetType() == TargetType.초_중등) {
+				return subject.targetTrue(subject.getGradeType(), student.getGrade());
+			}
+			
+			return false;
+		})		
+		.map(data -> {
 			if (applyService.search(student.getId(), data.getId())) {
 				data.setApplyType(ApplyType.APPLY);
+			} else {
+				data.setApplyType(ApplyType.NONE);
 			}
+			data.setTarget(data.getTargetType().getName() + " " + data.getGradeType().getName());
 			return data;
 		}).sorted(Comparator.comparing(subject -> subject.getOrdered())).collect(Collectors.toList());
 		

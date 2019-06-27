@@ -9,9 +9,19 @@ input, select, textarea{ font-size:12px; font-family:myFirstFont, NanumGothic,Ve
     background: url(../images/boxed_bg.png) repeat;
 }
 
+@media (min-width: 300px) {
+	.ml-xs-3, .mx-xs-3 {
+    	margin-left: 1.25rem!important;
+	}
+}
+
 @media (min-width: 576px) {
 	.login-form {
 	    width: 25rem;
+	}
+	
+	.ml-xs-3, .mx-xs-3 {
+    	margin-left: 0rem!important;
 	}
 }
 

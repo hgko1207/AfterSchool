@@ -8,10 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.ysc.after.school.domain.Domain;
+import com.ysc.after.school.domain.db.Student.TargetType;
 
 import lombok.Data;
+import lombok.Getter;
 
 /**
  * 과목 관리 도메인
@@ -37,7 +40,15 @@ public class Subject implements Domain {
 	private String teacher;
 	
 	/** 대상 */
-	@Column(nullable = false, length = 45)
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private TargetType targetType;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private GradeType gradeType;
+	
+	@Transient
 	private String target;
 	
 	/** 수강기간 */
@@ -86,13 +97,47 @@ public class Subject implements Domain {
 	
 	private int subjectGroupId;
 	
+	/** 순서지정 */
 	private int ordered;
 	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Transient
 	private ApplyType applyType;
 	
 	public enum ApplyType {
 		NONE, APPLY, WAIT;
+	}
+	
+	@Getter
+	public enum GradeType {
+		NONE("", 0, 0),
+		GRADE_1_2("1-2학년", 1, 2),
+		GRADE_1_3("1-3학년", 1, 3),
+		GRADE_4_6("4-6학년", 4, 6),
+		GRADE_5_6("5-6학년", 5, 6);
+		
+		private String name;
+		
+		private int min;
+		
+		private int max;
+		
+		private GradeType(String name, int min, int max) {
+			this.name = name;
+			this.min = min;
+			this.max = max;
+		}
+	}
+	
+	/**
+	 * 학생 학년에 따라 과목 대상학년만 보여지도록
+	 * @param gradeType
+	 * @param grade
+	 * @return
+	 */
+	public boolean targetTrue(GradeType gradeType, int grade) {
+		 if (gradeType == GradeType.NONE || (gradeType.getMin() <= grade && grade <= gradeType.getMax())) {
+			return true;
+		}
+		return false;
 	}
 }

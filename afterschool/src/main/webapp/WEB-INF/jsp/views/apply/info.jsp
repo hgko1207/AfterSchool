@@ -18,7 +18,7 @@
 				<div class="card mb-0">
 					<div class="card-header">
 						<h2>
-							2019년도 수강 신청안내
+							${guidance.title}
 					    </h2>
 					</div>
 					<div class="card-body apply-content">
@@ -28,7 +28,7 @@
 				    	</div>
 				    	<div>
 				    		<label class="col-form-label text_bold">신청기간 : </label>
-				    		<label class="col-form-label apply-peirod">2019-07-01 00시 ~ 2019-07-05 24시</label>
+				    		<label class="col-form-label">${guidance.period}</label>
 				    	</div>
 					</div>
 					<div class="card-footer text-center">

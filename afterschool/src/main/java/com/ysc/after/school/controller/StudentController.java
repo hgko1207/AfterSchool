@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ysc.after.school.domain.db.Student;
+import com.ysc.after.school.domain.db.Student.TargetType;
 import com.ysc.after.school.service.SchoolService;
 import com.ysc.after.school.service.StudentService;
 
@@ -65,6 +66,7 @@ public class StudentController {
 	@ResponseBody
 	public ResponseEntity<?> regist(Student student) {
 		student.setTel(student.getService() + student.getTel());
+		student.setTargetType(student.getSchool().contains("초등학교") ? TargetType.초등 : TargetType.중등);
 		if (student.isAgree()) {
 			student.setResidentNumber(student.getJumin1() + "-" + student.getJumin2());
 		}
