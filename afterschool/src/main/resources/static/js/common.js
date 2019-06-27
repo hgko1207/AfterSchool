@@ -16,7 +16,7 @@ var CommonWidget = function() {
         
         $('.select2-size').select2({
             minimumResultsForSearch: Infinity,
-            width: '90'
+            width: '100'
         });
         
         // Select with search

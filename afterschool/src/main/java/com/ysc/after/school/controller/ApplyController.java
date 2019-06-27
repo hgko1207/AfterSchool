@@ -76,7 +76,7 @@ public class ApplyController {
 				data.setApplyType(ApplyType.APPLY);
 			}
 			return data;
-		}).sorted(Comparator.comparing(subject -> subject.getId())).collect(Collectors.toList());
+		}).sorted(Comparator.comparing(subject -> subject.getOrdered())).collect(Collectors.toList());
 		
 		model.addAttribute("subjectGroup", subjectGroupService.get(groupId));
 		model.addAttribute("subjects", subjects);

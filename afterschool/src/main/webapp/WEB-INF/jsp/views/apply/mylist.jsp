@@ -78,35 +78,57 @@
 </div>
 
 <script>
-
+var agent = navigator.userAgent.toLowerCase();
 
 function applyCancel(applyId) {
-	swal({
-        title: "수강취소 하시겠습니까?",
-        type: "warning",
-        confirmButtonText: "확인",
-        confirmButtonClass: "btn btn-danger",
-        showCancelButton: true, 
-        cancelButtonText: "닫기",
-        position: "top"
-    }).then(function(e) {
-    	$.ajax({
-    		url: contextPath + "/apply/delete",
-      		data: {"applyId": applyId},
-      		type: "DELETE",
-           	success: function(response) {
-           		swal({
-       				title: "수강 취소 되었습니다.", 
-       				type: "success",
-       				position: 'top'
-       			}).then(function(e) {
-       				location.href = "mylist";
-       			});
-           	},
-            error: function(response) {
-            	swal({title: response.responseText, type: "error", position: 'top'})
-            }
-    	});
-    });
+	if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+		console.log("인터넷 익스플로러 브라우저 입니다.");
+	 	var check = confirm("수강취소 하시겠습니까?");
+	 	if (check) {
+	 		$.ajax({
+	    		url: contextPath + "/apply/delete",
+	      		data: {"applyId": applyId},
+	      		type: "DELETE",
+	           	success: function(response) {
+	           		alert("수강 취소 되었습니다.");
+	           		location.href = "mylist";
+	           	},
+	            error: function(response) {
+	            	alert(response.responseText);
+	            }
+	    	});
+	 	}
+	} else {
+		console.log("인터넷 익스플로러 브라우저가 아닙니다.");
+		swal({
+	        title: "수강취소 하시겠습니까?",
+	        type: "question",
+	        confirmButtonText: "확인",
+	        confirmButtonClass: "btn btn-danger",
+	        showCancelButton: true, 
+	        cancelButtonText: "닫기",
+	        position: "top"
+	    }).then(function(e) {
+	    	if (e.value) {
+	    		$.ajax({
+		    		url: contextPath + "/apply/delete",
+		      		data: {"applyId": applyId},
+		      		type: "DELETE",
+		           	success: function(response) {
+		           		swal({
+		       				title: "수강 취소 되었습니다.", 
+		       				type: "success",
+		       				position: 'top'
+		       			}).then(function(e) {
+		       				location.href = "mylist";
+		       			});
+		           	},
+		            error: function(response) {
+		            	swal({title: response.responseText, type: "error", position: 'top'})
+		            }
+		    	});
+	    	}
+	    });
+	}
 }
 </script>

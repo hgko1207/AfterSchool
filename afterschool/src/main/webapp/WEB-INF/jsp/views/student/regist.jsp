@@ -119,6 +119,8 @@
 </div>
 
 <script>
+var agent = navigator.userAgent.toLowerCase();
+
 $("#studentRegistForm").submit(function(e) {
 	e.preventDefault();
 	
@@ -129,7 +131,11 @@ $("#studentRegistForm").submit(function(e) {
 		}
 		
 		if (!validate()) {
-			swal({title: "올바른 주민번호가 아닙니다.", type: "warning", position: 'top'});
+			if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+				alert("올바른 주민번호가 아닙니다.");
+			} else {
+				swal({title: "올바른 주민번호가 아닙니다.", type: "warning", position: 'top'});
+			}
 			return;
 		}
 	}
@@ -144,7 +150,11 @@ $("#studentRegistForm").submit(function(e) {
 		data: student,
 		success: function(response) {
        		if (response) {
-       			swal({title: "이미 등록된 학생 정보입니다.", type: "warning", position: 'top', confirmButtonClass: 'btn btn-warning',})
+       			if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+       				alert("이미 등록된 학생 정보입니다.");
+       			} else {
+       				swal({title: "이미 등록된 학생 정보입니다.", type: "warning", position: 'top', confirmButtonClass: 'btn btn-warning',})
+       			}
        		} else {
        			$.ajax({
        				type: "POST",
@@ -154,7 +164,11 @@ $("#studentRegistForm").submit(function(e) {
        	           		location.href = contextPath + "/login";
        	           	},
        	            error: function(response) {
-       	            	swal({title: "학생 등록을 실패하였습니다.", type: "error", position: 'top'})
+       	            	if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+       	            		alert("학생 등록을 실패하였습니다.");
+       	            	} else {
+	       	            	swal({title: "학생 등록을 실패하였습니다.", type: "error", position: 'top'})
+       	            	}
        	            }
        			});
        		}

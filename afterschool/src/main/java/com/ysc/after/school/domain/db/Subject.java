@@ -86,6 +86,8 @@ public class Subject implements Domain {
 	
 	private int subjectGroupId;
 	
+	private int ordered;
+	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private ApplyType applyType;

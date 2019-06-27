@@ -32,7 +32,7 @@
 				    	</div>
 					</div>
 					<div class="card-footer text-center">
-						<a href="subscribe1" class="btn bg-primary-700 rounded-round custom-btn apply-btn">수강신청하기</a>
+						<a href="subscribe1" class="btn bg-info-700 rounded-round custom-btn apply-btn">수강신청하기</a>
 					</div>
 				</div>
 			</form>
