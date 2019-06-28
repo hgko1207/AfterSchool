@@ -81,7 +81,7 @@
 							</div>
 
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary btn-block">로그인<i class="icon-circle-right2 ml-2"></i></button>
+								<button type="submit" class="btn bg-info-600 btn-block">로그인<i class="icon-circle-right2 ml-2"></i></button>
 							</div>
 							
 							<div class="form-group text-center text-muted content-divider">
