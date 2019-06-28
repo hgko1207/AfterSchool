@@ -55,11 +55,11 @@
 							    	</div>
 							    	<div class="align-items-stretch">
 							    		<label class="col-form-label text-primary font-weight-bold pb-0"><i class="icon-arrow-right13 mr-1"></i>수업장소 : </label>
-							    		<label class="col-form-label ml-3">${apply.subject.location}</label>
+							    		<label class="col-form-label ml-xs-3">${apply.subject.location}</label>
 							    	</div>
 							    	<div class="align-items-stretch">
 							    		<label class="col-form-label text-primary font-weight-bold pb-0"><i class="icon-arrow-right13 mr-1"></i>과목특징 : </label>
-							    		<label class="col-form-label ml-3 pb-0">${apply.subject.description}</label>
+							    		<label class="col-form-label ml-xs-3 pb-0">${apply.subject.description}</label>
 							    	</div>
 								</div>
 							</div> 

@@ -104,7 +104,7 @@ public class Subject implements Domain {
 	private ApplyType applyType;
 	
 	public enum ApplyType {
-		NONE, APPLY, WAIT;
+		NONE, APPLY, WAIT, NOTAPPLY;
 	}
 	
 	@Getter

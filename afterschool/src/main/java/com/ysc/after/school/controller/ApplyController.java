@@ -77,19 +77,28 @@ public class ApplyController {
 		Student student = (Student) authentication.getPrincipal();
 		
 		List<Subject> subjects = subjectService.getList(groupId).stream()
-		.filter(subject -> {
-			if (subject.getTargetType() == TargetType.전체 || subject.getTargetType() == student.getTargetType()
-					|| subject.getTargetType() == TargetType.초_중등) {
-				return subject.targetTrue(subject.getGradeType(), student.getGrade());
-			}
-			
-			return false;
-		})		
+//		.filter(subject -> {
+//			if (subject.getTargetType() == TargetType.전체 || subject.getTargetType() == student.getTargetType()
+//					|| subject.getTargetType() == TargetType.초_중등) {
+//				return subject.targetTrue(subject.getGradeType(), student.getGrade());
+//			}
+//			
+//			return false;
+//		})		
 		.map(data -> {
 			if (applyService.search(student.getId(), data.getId())) {
 				data.setApplyType(ApplyType.APPLY);
 			} else {
-				data.setApplyType(ApplyType.NONE);
+				if (data.getTargetType() == TargetType.전체 || data.getTargetType() == student.getTargetType()
+						|| data.getTargetType() == TargetType.초_중등) {
+					if (data.targetTrue(data.getGradeType(), student.getGrade())) {
+						data.setApplyType(ApplyType.NONE);
+					} else {
+						data.setApplyType(ApplyType.NOTAPPLY);
+					}
+				} else {
+					data.setApplyType(ApplyType.NOTAPPLY);
+				}
 			}
 			data.setTarget(data.getTargetType().getName() + " " + data.getGradeType().getName());
 			return data;
