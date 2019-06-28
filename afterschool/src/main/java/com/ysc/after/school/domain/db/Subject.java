@@ -1,5 +1,7 @@
 package com.ysc.after.school.domain.db;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.ysc.after.school.domain.Domain;
 import com.ysc.after.school.domain.db.Student.TargetType;
@@ -99,6 +104,12 @@ public class Subject implements Domain {
 	
 	/** 순서지정 */
 	private int ordered;
+	
+	@CreationTimestamp
+	private LocalDateTime createDate;
+
+	@UpdateTimestamp
+	private LocalDateTime updateDate;
 	
 	@Transient
 	private ApplyType applyType;
