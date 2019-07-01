@@ -55,7 +55,18 @@ public class StudentController {
 	@GetMapping("search")
 	@ResponseBody
 	public boolean search(Student student) {
-		return studentService.search(student.getName(), student.getService() + student.getTel());
+		return studentService.search(student);
+	}
+	
+	/***
+	 * 등록된 학생인지 확인
+	 * @param student
+	 * @return
+	 */
+	@GetMapping("jumin")
+	@ResponseBody
+	public boolean jumin(Student student) {
+		return studentService.jumin(student);
 	}
 	
 	/**

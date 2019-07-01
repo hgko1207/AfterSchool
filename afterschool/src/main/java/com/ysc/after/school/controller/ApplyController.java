@@ -88,6 +88,8 @@ public class ApplyController {
 		.map(data -> {
 			if (applyService.search(student.getId(), data.getId())) {
 				data.setApplyType(ApplyType.APPLY);
+			} else if (data.getFixedNumber() <= data.getApplyNumber()) {
+				data.setApplyType(ApplyType.FILL);
 			} else {
 				if (data.getTargetType() == TargetType.전체 || data.getTargetType() == student.getTargetType()
 						|| data.getTargetType() == TargetType.초_중등) {
@@ -124,7 +126,7 @@ public class ApplyController {
 		}
 		
 		Subject subject = subjectService.get(subjectId);
-		if (subject.getFixedNumber() == subject.getApplyNumber()) {
+		if (subject.getFixedNumber() <= subject.getApplyNumber()) {
 			return new ResponseEntity<String>("정원 초과입니다.", HttpStatus.BAD_REQUEST);
 		}
 		

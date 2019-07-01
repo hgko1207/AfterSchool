@@ -6,4 +6,6 @@ public interface StudentRepository extends DefaultRepository<Student, Integer> {
 
 	Student findByNameAndTel(String name, String tel);
 
+	Student findByResidentNumber(String residentNumber);
+
 }

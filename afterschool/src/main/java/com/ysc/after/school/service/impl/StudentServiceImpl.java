@@ -2,6 +2,8 @@ package com.ysc.after.school.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findAll();
 	}
 
+	@Transactional
 	@Override
 	public boolean regist(Student domain) {
 		if (isNew(domain)) {
@@ -29,6 +32,7 @@ public class StudentServiceImpl implements StudentService {
 		}	
 	}
 
+	@Transactional
 	@Override
 	public boolean update(Student domain) {
 		if (!isNew(domain)) {
@@ -38,6 +42,7 @@ public class StudentServiceImpl implements StudentService {
 		}	
 	}
 
+	@Transactional
 	@Override
 	public boolean delete(Student domain) {
 		studentRepository.delete(domain);
@@ -53,8 +58,16 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findByNameAndTel(name, tel);
 	}
 
+	@Transactional
 	@Override
-	public boolean search(String name, String tel) {
-		return studentRepository.findByNameAndTel(name, tel) != null;
+	public boolean search(Student student) {
+		return studentRepository.findByNameAndTel(student.getName(), student.getService() + student.getTel()) != null;
+	}
+
+	@Transactional
+	@Override
+	public boolean jumin(Student student) {
+		System.err.println(student);
+		return studentRepository.findByResidentNumber(student.getJumin1() + "-" + student.getJumin2()) != null;
 	}
 }

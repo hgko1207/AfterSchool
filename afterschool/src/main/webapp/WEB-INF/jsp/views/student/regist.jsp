@@ -124,6 +124,10 @@ var agent = navigator.userAgent.toLowerCase();
 $("#studentRegistForm").submit(function(e) {
 	e.preventDefault();
 	
+	var form = $(this);
+    var url = form.attr('action');
+    var student = form.serialize();
+    
 	if ($("#agreeCheck").is(":checked")) {
 		if ($("#jumin1").val() == '' || $("#jumin2").val() == '') {
 			$("#jumin1").focus();
@@ -138,13 +142,30 @@ $("#studentRegistForm").submit(function(e) {
 			}
 			return;
 		}
+		
+		$.ajax({
+			url: contextPath + "/student/jumin",
+			type: "GET",
+			data: student,
+			success: function(response) {
+				if (response) {
+					if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+						alert("이미 등록된 주민번호입니다.");
+					} else {
+						swal({title: "이미 등록된 주민번호입니다.", type: "warning", position: 'top'});
+					}
+				} else {
+					registStudent(student, url);
+				}
+			}
+		});
+	} else {
+		registStudent(student, url);
 	}
-	
-	var form = $(this);
-    var url = form.attr('action');
-    var student = form.serialize();
-    
-    $.ajax({
+});
+
+function registStudent(student, url) {
+	$.ajax({
 		url: contextPath + "/student/search",
 		type: "GET",
 		data: student,
@@ -174,7 +195,7 @@ $("#studentRegistForm").submit(function(e) {
        		}
        	}
 	});
-});
+}
 
 $("#agreeCheck").click(function(){
     if ($(this).is(':checked')){

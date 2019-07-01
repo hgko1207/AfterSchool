@@ -115,7 +115,7 @@ public class Subject implements Domain {
 	private ApplyType applyType;
 	
 	public enum ApplyType {
-		NONE, APPLY, WAIT, NOTAPPLY;
+		NONE, APPLY, WAIT, NOTAPPLY, FILL;
 	}
 	
 	@Getter
@@ -123,6 +123,7 @@ public class Subject implements Domain {
 		NONE("", 0, 0),
 		GRADE_1_2("1-2학년", 1, 2),
 		GRADE_1_3("1-3학년", 1, 3),
+		GRADE_3_6("3-6학년", 3, 6),
 		GRADE_4_6("4-6학년", 4, 6),
 		GRADE_5_6("5-6학년", 5, 6);
 		
