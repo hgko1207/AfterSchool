@@ -23,7 +23,14 @@
 							<div class="card-header bg-light header-elements-inline">
 								<h6 class="card-title">
 									<a data-toggle="collapse" class="collapsed text-default font-weight-bold" href="#accordion-item-group${apply.id}">
-										${apply.subject.name}
+										<c:choose>
+											<c:when test="${apply.subject.name == '쉬지말고 롤라타자'}">
+										       ${apply.subject.name} <span class="text-danger"> - 재료비 정정</span>
+										    </c:when>
+										    <c:otherwise>
+					    						${apply.subject.name}
+					    					</c:otherwise>
+										</c:choose>
 									</a>
 								</h6>
 								<div class="header-elements mylist-header">
@@ -47,7 +54,16 @@
 							    	</div>
 							    	<div>
 							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>재료,교구비 : </label>
-							    		<label class="col-form-label">${apply.subject.costDesc}</label>
+							    		<label class="col-form-label">
+							    			<c:choose>
+												<c:when test="${apply.subject.name == '쉬지말고 롤라타자'}">
+											       <span class="text-danger">재료 교구비 8만원(수익자 부담-롤러스케이트,보호장비) 원하는 학생만 구매</span>
+											    </c:when>
+											    <c:otherwise>
+						    						${apply.subject.costDesc}
+						    					</c:otherwise>
+											</c:choose>
+							    		</label>
 							    	</div>
 							    	<div>
 							    		<label class="col-form-label text-primary font-weight-bold"><i class="icon-arrow-right13 mr-1"></i>강사이름 : </label>
