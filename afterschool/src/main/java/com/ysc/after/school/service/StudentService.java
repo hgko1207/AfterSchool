@@ -2,7 +2,7 @@ package com.ysc.after.school.service;
 
 import com.ysc.after.school.domain.db.Student;
 
-public interface StudentService extends CRUDService<Student> {
+public interface StudentService extends CRUDService<Student, Integer> {
 
 	Student login(String name, String tel);
 

@@ -6,19 +6,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ysc.after.school.domain.db.Transform;
-import com.ysc.after.school.domain.db.Transform.StatusType;
-import com.ysc.after.school.service.TransformService;
+import com.ysc.after.school.domain.db.Setting;
+import com.ysc.after.school.domain.db.Setting.SettingType;
+import com.ysc.after.school.domain.db.Setting.StatusType;
+import com.ysc.after.school.service.SettingService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	private TransformService transformService;
+	private SettingService settingService;
 
 	@GetMapping("/")
     public String index() throws Exception {
-		if (transformService.get(1).getType() == StatusType.CLOSE) {
+		if (settingService.get(SettingType.MOBILE).getStatus() == StatusType.CLOSE) {
 			return "default";
 		}
 		
@@ -34,13 +35,17 @@ public class MainController {
 	
 	@GetMapping("/system/open")
 	public String open() {
-		transformService.update(new Transform(1, StatusType.OPEN));
+		Setting setting = settingService.get(SettingType.MOBILE);
+		setting.setStatus(StatusType.OPEN);
+		settingService.update(setting);
 		return "success";
 	}
 	
 	@GetMapping("/system/close")
 	public String close() {
-		transformService.update(new Transform(1, StatusType.CLOSE));
+		Setting setting = settingService.get(SettingType.MOBILE);
+		setting.setStatus(StatusType.CLOSE);
+		settingService.update(setting);
 		return "success";
 	}
 }

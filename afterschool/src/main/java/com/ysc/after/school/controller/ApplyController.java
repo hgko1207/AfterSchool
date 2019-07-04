@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ysc.after.school.domain.db.Apply;
+import com.ysc.after.school.domain.db.Setting.SettingType;
 import com.ysc.after.school.domain.db.Student;
 import com.ysc.after.school.domain.db.Student.TargetType;
 import com.ysc.after.school.domain.db.Subject;
 import com.ysc.after.school.domain.db.Subject.ApplyType;
 import com.ysc.after.school.service.ApplyService;
-import com.ysc.after.school.service.GuidanceService;
+import com.ysc.after.school.service.SettingService;
 import com.ysc.after.school.service.SubjectGroupService;
 import com.ysc.after.school.service.SubjectService;
 
@@ -45,7 +46,7 @@ public class ApplyController {
 	private ApplyService applyService;
 	
 	@Autowired
-	private GuidanceService guidanceService;
+	private SettingService settingService;
 
 	/**
 	 * 수강 신청 정보 화면
@@ -54,7 +55,7 @@ public class ApplyController {
 	@GetMapping("info")
 	public void info(Model model, Authentication authentication) {
 		Student student = (Student) authentication.getPrincipal();
-		model.addAttribute("guidance", guidanceService.get(1));
+		model.addAttribute("guidance", settingService.get(SettingType.GUIDANCE));
 		model.addAttribute("name", student.getName());
 		model.addAttribute("student", student.getGrade() + "학년 " + student.getClassType() + "반 " + student.getNumber() + "번");
 	}
@@ -132,8 +133,9 @@ public class ApplyController {
 		
 		if (applyService.regist(new Apply(student.getId(), subject))) {
 			subject.setApplyNumber(subject.getApplyNumber() + 1);
-			subjectService.update(subject);
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (subjectService.update(subject)) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 		}
 		
 		return new ResponseEntity<String>("수강신청 실패하였습니다.", HttpStatus.BAD_REQUEST);
@@ -148,11 +150,12 @@ public class ApplyController {
 	@DeleteMapping("delete")
 	public ResponseEntity<?> delete(int applyId) {
 		Apply apply = applyService.get(applyId);
-		if (applyService.delete(apply)) {
+		if (applyService.delete(applyId)) {
 			Subject subject = apply.getSubject();
 			subject.setApplyNumber(subject.getApplyNumber() - 1);
-			subjectService.update(subject);
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (subjectService.update(subject)) {
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
 		}
 		return new ResponseEntity<String>("수강취소 실패하였습니다.", HttpStatus.BAD_REQUEST);
 	}
@@ -164,7 +167,11 @@ public class ApplyController {
 	@GetMapping("mylist")
 	public void mylist(Model model, Authentication authentication) {
 		Student student = (Student) authentication.getPrincipal();
+		List<Apply> applies = applyService.getList(student.getId()).stream().map(data -> {
+			data.getSubject().setTarget(data.getSubject().getTargetType().getName() + " " + data.getSubject().getGradeType().getName());
+			return data;
+		}).collect(Collectors.toList());
 		
-		model.addAttribute("applies", applyService.getList(student.getId()));
+		model.addAttribute("applies", applies);
 	}
 }

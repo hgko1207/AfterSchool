@@ -44,8 +44,8 @@ public class StudentServiceImpl implements StudentService {
 
 	@Transactional
 	@Override
-	public boolean delete(Student domain) {
-		studentRepository.delete(domain);
+	public boolean delete(Integer id) {
+		studentRepository.deleteById(id);
 		return true;
 	}
 
@@ -67,7 +67,12 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional
 	@Override
 	public boolean jumin(Student student) {
-		System.err.println(student);
 		return studentRepository.findByResidentNumber(student.getJumin1() + "-" + student.getJumin2()) != null;
 	}
+
+	@Override
+	public Student get(Integer id) {
+		return studentRepository.findById(id).get();
+	}
+
 }
