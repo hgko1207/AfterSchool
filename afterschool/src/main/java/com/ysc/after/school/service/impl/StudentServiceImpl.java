@@ -11,6 +11,7 @@ import com.ysc.after.school.domain.db.Student;
 import com.ysc.after.school.repository.StudentRepository;
 import com.ysc.after.school.service.StudentService;
 
+@Transactional
 @Service
 public class StudentServiceImpl implements StudentService {
 
@@ -22,7 +23,6 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findAll();
 	}
 
-	@Transactional
 	@Override
 	public boolean regist(Student domain) {
 		if (isNew(domain)) {
@@ -32,7 +32,6 @@ public class StudentServiceImpl implements StudentService {
 		}	
 	}
 
-	@Transactional
 	@Override
 	public boolean update(Student domain) {
 		if (!isNew(domain)) {
@@ -42,7 +41,6 @@ public class StudentServiceImpl implements StudentService {
 		}	
 	}
 
-	@Transactional
 	@Override
 	public boolean delete(Integer id) {
 		studentRepository.deleteById(id);
@@ -58,13 +56,11 @@ public class StudentServiceImpl implements StudentService {
 		return studentRepository.findByNameAndTel(name, tel);
 	}
 
-	@Transactional
 	@Override
 	public boolean search(Student student) {
 		return studentRepository.findByNameAndTel(student.getName(), student.getService() + student.getTel()) != null;
 	}
 
-	@Transactional
 	@Override
 	public boolean jumin(Student student) {
 		return studentRepository.findByResidentNumber(student.getJumin1() + "-" + student.getJumin2()) != null;

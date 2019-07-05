@@ -5,7 +5,7 @@
 
 <div class="navbar navbar-expand-md navbar-dark">
 	<div class="navbar-brand">
-		<a href="/" class="d-inline-block">
+		<a href="#" class="d-inline-block">
 			<span><i class="icon-shutter mr-2"></i>방과후학교 수강신청</span>
 		</a>
 	</div>

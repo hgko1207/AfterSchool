@@ -5,7 +5,7 @@
 
 <div class="navbar navbar-expand-md navbar-dark">
 	<div class="navbar-brand">
-		<a href="/" class="d-inline-block">
+		<a href="#" class="d-inline-block">
 			<span><i class="icon-shutter mr-2"></i>방과후학교 학생등록</span>
 		</a>
 	</div>
@@ -121,8 +121,19 @@
 <script>
 var agent = navigator.userAgent.toLowerCase();
 
+// 전송 상태 설정 : false
+var isSubmitted = false;
+
 $("#studentRegistForm").submit(function(e) {
 	e.preventDefault();
+	
+	// 한번 등록버튼을 클릭 시 중복으로 클릭이 안되도록
+	if (isSubmitted) { 
+		isSubmitted = false;
+		return;
+	}
+	
+	isSubmitted = true;
 	
 	var form = $(this);
     var url = form.attr('action');
@@ -131,10 +142,12 @@ $("#studentRegistForm").submit(function(e) {
 	if ($("#agreeCheck").is(":checked")) {
 		if ($("#jumin1").val() == '' || $("#jumin2").val() == '') {
 			$("#jumin1").focus();
+			isSubmitted = false;
 			return;
 		}
 		
 		if (!validate()) {
+			isSubmitted = false;
 			if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
 				alert("올바른 주민번호가 아닙니다.");
 			} else {
@@ -149,6 +162,7 @@ $("#studentRegistForm").submit(function(e) {
 			data: student,
 			success: function(response) {
 				if (response) {
+					isSubmitted = false;
 					if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
 						alert("이미 등록된 주민번호입니다.");
 					} else {
@@ -171,6 +185,7 @@ function registStudent(student, url) {
 		data: student,
 		success: function(response) {
        		if (response) {
+       			isSubmitted = false;
        			if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
        				alert("이미 등록된 학생 정보입니다.");
        			} else {
@@ -185,6 +200,7 @@ function registStudent(student, url) {
        	           		location.href = contextPath + "/login";
        	           	},
        	            error: function(response) {
+       	            	isSubmitted = false;
        	            	if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
        	            		alert("학생 등록을 실패하였습니다.");
        	            	} else {

@@ -8,4 +8,7 @@ public interface StudentRepository extends DefaultRepository<Student, Integer> {
 
 	Student findByResidentNumber(String residentNumber);
 
+	Student findByNameAndTelAndGradeAndClassTypeAndNumber(String name, String string, 
+			int grade, int classType, int number);
+
 }
