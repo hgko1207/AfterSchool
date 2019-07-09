@@ -98,18 +98,23 @@
 									보험가입에 필요한 개인정보를 보험사에<br>제공하는 것에 동의합니다.
 								</label>
 							</div>
-							<div id="residentNumberInput" class="form-group mt-2 d-none">
-								<label class="font-weight-bold">학생주민등록번호 입력 :</label>
-								<div class="d-flex align-items-center">
-									<input type="text" class="form-control format-jumin1" id="jumin1" name="jumin1">
-									<span class="font-weight-bold mx-2">-</span>
-									<input type="password" class="form-control format-jumin2" id="jumin2" name="jumin2">
+							<div id="residentNumberInput" class="mt-2 d-none">
+								<div class="form-group ml-3 mb-3">
+									<button id="modalBtn" type="button" class="btn bg-teal-600 px-2" data-toggle="modal" data-target="#modal">보험관련 규약추가항목 확인</button>
+								</div>
+								<div class="form-group">
+									<label class="font-weight-bold">학생주민등록번호 입력 :</label>
+									<div class="d-flex align-items-center">
+										<input type="text" class="form-control format-jumin1" id="jumin1" name="jumin1">
+										<span class="font-weight-bold mx-2">-</span>
+										<input type="password" class="form-control format-jumin2" id="jumin2" name="jumin2">
+									</div>
 								</div>
 							</div>
 						</fieldset>
 					</div>
 					<div class="card-footer text-center">
-						<button type="submit" class="btn bg-teal-600 rounded-round custom-btn mr-2">학생등록</button>
+						<button id="registBtn" type="submit" class="btn bg-teal-600 rounded-round custom-btn mr-2">학생등록</button>
 						<a href="${pageContext.request.contextPath}/" class="btn btn-light rounded-round custom-btn">취 소</a>
 					</div>
 				</div>
@@ -118,8 +123,48 @@
 	</div>
 </div>
 
+<div id="modal" class="modal fade" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title">[단체보험 가입-규약]</h1>
+				<!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+			</div>
+
+			<div class="modal-body">
+				<p>1. 회사는 회사를 계약자로, 회원을 피보험자로 하는 단체상해보험을 체결할 수 있습니다.</p>
+				<p>2. 회원은 회사가 회원을 피보험자로 하는 단체상해보험을 체결함에 있어 회사가 일괄로 가입하는 방식에 동의합니다.</p>
+				<p>3. 회원은 제1항의 보험계약에 따른 담보항목 및 내용을 회사가 제공하는 범주 내에서 선택할 수 있으며, 소정의 절차에 따라 보험 청약을 합니다.</p>
+				<p>4. 회원이 가입하는 단체상해보험의 보험금 수익자는 사망보험금인 경우에는 피보험자의 법정상속인, 그 외의 경우에는 피보험자 본인으로 합니다.</p>
+				<p>5. 보험계약에 관한 세부내용은 보험사가 제공하는 보험약관에 따르며 이 규약에서 정하지 않은 사항은 회사가 보험사와 약정한 바에 따릅니다.</p>
+			</div>
+
+			<div class="modal-footer text-center">
+				<button id="confirmBtn" type="button" class="btn bg-teal-600 px-4">확 인</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script>
 var agent = navigator.userAgent.toLowerCase();
+
+$("#agreeCheck").click(function(){
+    if ($(this).is(':checked')){
+    	$("#residentNumberInput").removeClass("d-none");
+    	$("#registBtn").prop("disabled", true);
+    	$("#modalBtn").prop("disabled", false);
+    } else {
+    	$("#residentNumberInput").addClass("d-none");
+    	$("#registBtn").prop("disabled", false);
+    }
+});
+
+$("#confirmBtn").click(function() {
+	$("#modalBtn").prop("disabled", true);
+	$("#registBtn").prop("disabled", false);
+	$("#modal").modal('hide');
+});
 
 // 전송 상태 설정 : false
 var isSubmitted = false;
@@ -212,14 +257,6 @@ function registStudent(student, url) {
        	}
 	});
 }
-
-$("#agreeCheck").click(function(){
-    if ($(this).is(':checked')){
-    	$("#residentNumberInput").removeClass("d-none");
-    } else {
-    	$("#residentNumberInput").addClass("d-none");
-    }
-});
 
 function validate() {
     var re = /^[a-zA-Z0-9]{4,12}$/ // 아이디와 패스워드가 적합한지 검사할 정규식
